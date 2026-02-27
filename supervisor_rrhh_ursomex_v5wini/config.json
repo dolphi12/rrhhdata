@@ -1,0 +1,164 @@
+{
+  "device_timezone": "America/Tijuana",
+  "device": {
+    "ip": "192.168.1.227",
+    "port": 80,
+    "user": "admin",
+    "password": "CAMBIA_ESTO",
+    "endpoints": [
+      "/ISAPI/AccessControl/AcsEvent?format=json"
+    ]
+  },
+  "pull": {
+    "normalpullinterval": 60,
+    "realtimepullinterval": 10,
+    "retry_attempts": 3,
+    "retry_delay": 3,
+    "page_size": 200,
+    "autoadjustlookahead": true,
+    "lookback_seconds": 300
+  },
+  "storage": {
+    "data_dir": "storage",
+    "backup_dir": "storage/backups",
+    "keeprawdays": 90,
+    "keepprocesseddays": 365,
+    "maxdbsize_mb": 1024
+  },
+  "export": {
+    "generatedailyexcel": true,
+    "generateweeklyexcel": true,
+    "generatejsonexport": true,
+    "inactivity_gap_minutes": 360,
+    "excel_template": "",
+    "procesador_dir": "procesador_dir",
+    "break_max_minutes": 240,
+    "min_rest_between_shifts_minutes": 720,
+    "debounce_minutes": 3,
+    "max_shift_hours": 24,
+    "close_lookahead_hhmm": "12:00",
+    "hybrid_close": {
+      "enabled": true,
+      "entry_start_hhmm": "04:00",
+      "close_window_end_hhmm": "07:30",
+      "late_threshold_hhmm": "18:00",
+      "anti_fp_window_minutes": 90,
+      "anti_fp_min_additional_events": 2,
+      "require_late_signature": true,
+      "max_join_shift_hours": 24,
+      "patterns_enabled": true,
+      "test_max_minutes": 15,
+      "min_real_events": 2,
+      "pattern_hist_max": 60,
+      "advanced_learning": {
+        "enabled": true,
+        "seasonality": {
+          "enabled": true,
+          "mode": "month",
+          "alpha": 0.12,
+          "min_samples": 10
+        },
+        "confidence": {
+          "enabled": true,
+          "threshold": 0.6,
+          "threshold_no_late": 0.55,
+          "min_samples": 10,
+          "alpha_base": 0.05,
+          "alpha_global": 0.02,
+          "alpha_cluster": 0.04
+        },
+        "audit": {
+          "enabled": true,
+          "keep_days": 45,
+          "export_excel": false
+        },
+        "seasonality_v2": {
+          "enabled": true,
+          "mode": "auto_drift",
+          "ewma_days": 7,
+          "baseline_days": 90,
+          "enter_threshold": 2.0,
+          "enter_days": 3,
+          "exit_threshold": 1.0,
+          "exit_days": 7,
+          "ioi_weights": {
+            "jpd": 0.55,
+            "d1": 0.45
+          },
+          "weights_offpeak": {
+            "base": 0.55,
+            "month": 0.25,
+            "recent": 0.2
+          },
+          "weights_peak": {
+            "base": 0.3,
+            "month": 0.2,
+            "recent": 0.5
+          },
+          "alpha": {
+            "base": 0.05,
+            "month": 0.1,
+            "recent": 0.15
+          },
+          "w_cluster": 0.1,
+          "w_global": 0.05,
+          "max_days_store": 200,
+          "refresh_mode": "operational_week",
+          "refresh_days": 7,
+          "use_last_complete_week": true
+        },
+        "cluster_v2": {
+          "enabled": true,
+          "window_days": 28,
+          "refresh_days": 7,
+          "k": 6,
+          "min_jornadas": 8,
+          "hysteresis_runs": 2,
+          "max_iter": 15,
+          "refresh_mode": "operational_week",
+          "use_last_complete_week": true
+        }
+      }
+    }
+  },
+  "operation": {
+    "shift_cutoff": "03:00",
+    "expectedmaxexit_hhmm": "23:59",
+    "week_start": "WEDNESDAY"
+  },
+  "database": {
+    "engine": "sqlite",
+    "sqlite_path": "storage/collector.sqlite",
+    "postgres_dsn": ""
+  },
+  "rrhh": {
+    "store_sqlite_path": "storage/rrhh_store.sqlite3",
+    "roster_csv_path": "storage/roster_empleados.csv",
+    "out_dir": "storage/rrhh_exports",
+    "roster": {
+      "mode": "active_last_days",
+      "active_last_days": 90,
+      "csv_path": "storage/roster_empleados.csv",
+      "id_min_width": 1,
+      "default_active": true,
+      "only_active": true
+    },
+    "presence": {
+      "stale_after_minutes": 720,
+      "pause_max_minutes": 240
+    },
+    "analytics": {
+      "windows_days": [
+        30,
+        60,
+        90
+      ],
+      "min_jornadas_for_profile": 3
+    },
+    "predictions": {
+      "entry_window_minutes": 75,
+      "confidence_min_samples": 5,
+      "window_days": 60
+    }
+  }
+}

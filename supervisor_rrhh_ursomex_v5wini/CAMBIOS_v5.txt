@@ -1,0 +1,18 @@
+SUPERVISOR_RRHH_URSOMEX v5 (WIN)
+
+Cambios clave (sin cambiar la lógica de negocio):
+
+1) Rendimiento SQLite
+   - Soporte de transacciones (BEGIN/COMMIT) en collector/storage/db.py.
+   - Commit condicional para evitar 'commit por evento' cuando hay transacción activa.
+
+2) Indexado de jornadas
+   - Cache de UTC (ZoneInfo) para evitar recreación repetida.
+   - El indexado se ejecuta dentro de una transacción si el motor es SQLite.
+
+3) Importación
+   - import_jsonl_file usa transacción SQLite.
+   - import_manual_corrections_excel usa transacción SQLite.
+
+Validación rápida
+   - Dataset sintético ~45k eventos (500 empleados x 30 días): indexado OK y se generaron PDFs y Excel sin errores.

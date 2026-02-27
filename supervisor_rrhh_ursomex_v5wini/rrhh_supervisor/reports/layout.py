@@ -89,7 +89,7 @@ def draw_footer(c, page_w: float, page_h: float, page_no: int, note: Optional[st
 
 # ---- Helpers de estilo (look 'dashboard') ----
 
-PRIMARY = (0.00, 0.55, 0.55)         # teal corporativo
+PRIMARY = (0.00, 0.55, 0.55)         # teal URSOMEX
 PRIMARY_DARK = (0.00, 0.40, 0.40)
 CARD_BG = (0.965, 0.982, 0.982)
 CARD_BG_ALT = (0.945, 0.970, 0.970)

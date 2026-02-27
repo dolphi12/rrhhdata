@@ -112,11 +112,11 @@ def _pending_start_breakdown(
             continue
         counts["SIN_INICIAR"] += 1
 
-        prof = store.get_employee_profile(emp, window_days)
-        if prof is None:
-            prof = build_employee_profile(collector, emp, local_tz, window_days, min_jornadas_for_profile)
-            if prof is not None:
-                store.upsert_employee_profile(emp, window_days, prof)
+        prof = build_employee_profile(collector, emp, local_tz, window_days, min_jornadas_for_profile)
+        if prof is not None:
+            store.upsert_employee_profile(emp, window_days, prof)
+        else:
+            prof = store.get_employee_profile(emp, window_days)
 
         if not prof or not prof.get("entry", {}) or not prof["entry"].get("median"):
             counts["SIN_PERFIL"] += 1
@@ -227,11 +227,11 @@ def run(config_path: str):
                     print(f"Jornada abierta: {open_j.get('jornada_id')}   OpDate (colector): {open_j.get('op_date')}   Inicio UTC: {open_j.get('start_time_utc')}")
 
                 prof_wd = cfg.analytics_windows_days[0]
-                prof = store.get_employee_profile(emp, prof_wd)
-                if prof is None:
-                    prof = build_employee_profile(collector, emp, cfg.local_tz, prof_wd, cfg.min_jornadas_for_profile)
-                    if prof is not None:
-                        store.upsert_employee_profile(emp, prof_wd, prof)
+                prof = build_employee_profile(collector, emp, cfg.local_tz, prof_wd, cfg.min_jornadas_for_profile)
+                if prof is not None:
+                    store.upsert_employee_profile(emp, prof_wd, prof)
+                else:
+                    prof = store.get_employee_profile(emp, prof_wd)
 
                 pred = predict_next_event(
                     collector,
